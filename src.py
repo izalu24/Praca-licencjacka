@@ -89,6 +89,36 @@ def FTBS(initial: tuple, boundary: tuple, k: float, h: float, rho_max: float, v_
     return rho, v[0:-1, :], cfl
 
 def FTCS(initial: tuple, boundary: tuple, k: float, h: float, rho_max: float, v_max: float, tau: float, chi: float, c0: float, l: float = 1, m: float = 1, plot=True):
+    """
+    Rozwiązuje układ równań modelu PW za pomocą metody FTCS (Forward-Time Centered-Space).
+
+    Parametry:
+        initial (tuple):
+            - początkowe wartości gęstości
+            - początkowe wartości prędkości
+        boundary (tuple):
+            - warunek brzegowy dla gęstości (lewy)
+            - warunek brzegowy dla gęstości (prawy)
+            - warunek brzegowy dla prędkości (lewy)
+            - warunek prędkości dla gęstości (prawy)
+
+        k (float): Krok czasowy (Δt)
+        h (float): Krok przestrzenny (Δx)
+        rho_max (float): Maksymalna wartość gęstości
+        v_max (float): Maksymalna wartość prędkości
+        tau (float): Czas relaksacji
+        chi (float): Stała zapobiegająca zerowaniu się mianownika
+        c0 (float): Stała związana z przewidywaniem zmian gęstości
+        l (float): Parametr kształtu funkcji prędkości dla stanu równowagi
+        m (float): Parametr kształtu funkcji prędkości dla stanu równowagi
+        plot (bool): Czy generować wykresy
+
+        Zwraca:
+            - rho (ndarray (N+1, T+1)): Rozwiązanie dla gęstości
+            - v (ndarray (N, T+1)): Rozwiązanie dla prędkości
+            - cfl (float): Warunek CFL
+    """
+
     if not len(initial[0]) == len(initial[1]):
         raise ValueError("Warunki początkowe nie są tej samej długości.")
     if not len(boundary[0]) == len(boundary[1]) == len(boundary[2]) == len(boundary[3]):
@@ -150,6 +180,9 @@ def FTCS(initial: tuple, boundary: tuple, k: float, h: float, rho_max: float, v_
     return rho, v[0:-1, :], cfl
 
 def crafted_solution(initial: tuple, boundary: tuple, k: float, h: float, rho_max: float, v_max: float, tau: float, chi: float, c0: float, l: float = 1, m: float = 1, plot=True):
+    """
+    Do testów, używanie niezalecane.
+    """
     if not len(initial[0]) == len(initial[1]):
         raise ValueError("Warunki początkowe nie są tej samej długości.")
     if not len(boundary[0]) == len(boundary[1]):
@@ -215,12 +248,26 @@ def crafted_solution(initial: tuple, boundary: tuple, k: float, h: float, rho_ma
 
     return rho, v[0:-1, :], cfl
 
-def L1_error(real_sol: float, num_sol: float, h: float, k: float):
+def Lp_error(real_sol: float, num_sol: float, h: float, k: float, p: int = 1):
+    """
+    Oblicza błąd rozwiązania w normie Lp.
+
+        Parametry:
+            real_sol (float): prawdziwe rozwiązanie (w założeniu)
+            num_sol (float): rozwiązanie numeryczne
+            k (float): Krok czasowy (Δt)
+            h (float): Krok przestrzenny (Δx)
+            p (int): identyfikator normy Lp
+            
+        Zwraca:
+            float: błąd rozwiązania w normie Lp.
+    """
+
     if not real_sol.shape == num_sol.shape:
         raise ValueError("Rozwiązania mają różne wymiary.")
     
     diff = np.abs(real_sol-num_sol)
-    return np.sum(diff*k*h)
+    return np.sum((diff**p)*k*h)**(1/p)
 
 def FTBS_2(initial: tuple, boundary: tuple, k: float, h: float, rho_max: float, v_max: float, tau: float, chi: float, c0: float, l: float = 1, m: float = 1, plot=True):
     if not len(initial[0]) == len(initial[1]):
