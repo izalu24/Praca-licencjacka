@@ -65,6 +65,8 @@ def FTBS(initial: tuple, boundary: tuple, k: float, h: float, rho_max: float, v_
     for t in range(1, T+1):
         for s in range(1, N+1):
             rho[s, t] = rho[s, t-1] + r*(v[s-1, t-1]*rho[s-1, t-1] - v[s, t-1]*rho[s, t-1])
+            if rho[s, t] < 1e-10:
+                rho[s, t] = 0
         for s in range(1, N):    
             v[s, t] = v[s, t-1] + k/tau*(v_max*(1 - (rho[s, t-1]/rho_max)**l)**m - v[s, t-1]) \
                  + r*v[s, t-1]*(v[s-1, t-1] - v[s, t-1]) - c0*r*(rho[s+1, t-1] - rho[s, t-1])/(chi + rho[s, t-1]) 
@@ -76,13 +78,15 @@ def FTBS(initial: tuple, boundary: tuple, k: float, h: float, rho_max: float, v_
 
         ax = fig.add_subplot(1, 2, 1, projection='3d')
         ax.plot_surface(S, T, rho.transpose()[:, 0:-1], cmap='viridis', edgecolor='none')
-        ax.view_init(elev=30, azim=-155)
+        ax.view_init(elev=30, azim=-120)
         ax.set_title('Gęstość')
+        ax.tick_params(axis='both', which='major', labelsize=6.5)
 
         ax = fig.add_subplot(1, 2, 2, projection='3d')
         ax.plot_surface(S, T, v.transpose()[:, 0:-1], cmap='viridis', edgecolor='none')
-        ax.view_init(elev=30, azim=-155)
+        ax.view_init(elev=30, azim=-120)
         ax.set_title('Prędkość')
+        ax.tick_params(axis='both', which='major', labelsize=6.5)
 
         plt.show()        
 
@@ -169,11 +173,13 @@ def FTCS(initial: tuple, boundary: tuple, k: float, h: float, rho_max: float, v_
         ax.plot_surface(S, T, rho.transpose()[:, 0:-1], cmap='viridis', edgecolor='none')
         ax.view_init(elev=30, azim=-155)
         ax.set_title('Gęstość')
+        ax.tick_params(axis='both', which='major', labelsize=6.5)
 
         ax = fig.add_subplot(1, 2, 2, projection='3d')
         ax.plot_surface(S, T, v.transpose()[:, 0:-1], cmap='viridis', edgecolor='none')
         ax.view_init(elev=30, azim=-155)
         ax.set_title('Prędkość')
+        ax.tick_params(axis='both', which='major', labelsize=6.5)
 
         plt.show()        
 
@@ -238,11 +244,13 @@ def crafted_solution(initial: tuple, boundary: tuple, k: float, h: float, rho_ma
         ax.plot_surface(S, T, rho.transpose()[:, 0:-1], cmap='viridis', edgecolor='none')
         ax.view_init(elev=30, azim=-120)
         ax.set_title('Gęstość')
+        ax.tick_params(axis='both', which='major', labelsize=6.5)
 
         ax = fig.add_subplot(1, 2, 2, projection='3d')
         ax.plot_surface(S, T, v.transpose()[:, 0:-1], cmap='viridis', edgecolor='none')
         ax.view_init(elev=35, azim=-165)
         ax.set_title('Prędkość')
+        ax.tick_params(axis='both', which='major', labelsize=6.5)
 
         plt.show()        
 
@@ -321,11 +329,13 @@ def FTBS_2(initial: tuple, boundary: tuple, k: float, h: float, rho_max: float, 
         ax.plot_surface(S, T, rho.transpose()[:, 0:-1], cmap='viridis', edgecolor='none')
         ax.view_init(elev=30, azim=-155)
         ax.set_title('Gęstość')
+        ax.tick_params(axis='both', which='major', labelsize=6.5)
 
         ax = fig.add_subplot(1, 2, 2, projection='3d')
         ax.plot_surface(S, T, v.transpose()[:, 0:-1], cmap='viridis', edgecolor='none')
         ax.view_init(elev=30, azim=-155)
         ax.set_title('Prędkość')
+        ax.tick_params(axis='both', which='major', labelsize=6.5)
 
         plt.show()        
 
