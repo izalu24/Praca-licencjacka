@@ -78,13 +78,13 @@ def FTBS(initial: tuple, boundary: tuple, k: float, h: float, rho_max: float, v_
 
         ax = fig.add_subplot(1, 2, 1, projection='3d')
         ax.plot_surface(S, T, rho.transpose()[:, 0:-1], cmap='viridis', edgecolor='none')
-        ax.view_init(elev=30, azim=-120)
+        ax.view_init(elev=30, azim=-150)
         ax.set_title('Gęstość')
         ax.tick_params(axis='both', which='major', labelsize=6.5)
 
         ax = fig.add_subplot(1, 2, 2, projection='3d')
         ax.plot_surface(S, T, v.transpose()[:, 0:-1], cmap='viridis', edgecolor='none')
-        ax.view_init(elev=30, azim=-120)
+        ax.view_init(elev=30, azim=-150)
         ax.set_title('Prędkość')
         ax.tick_params(axis='both', which='major', labelsize=6.5)
 
@@ -242,13 +242,13 @@ def crafted_solution(initial: tuple, boundary: tuple, k: float, h: float, rho_ma
 
         ax = fig.add_subplot(1, 2, 1, projection='3d')
         ax.plot_surface(S, T, rho.transpose()[:, 0:-1], cmap='viridis', edgecolor='none')
-        ax.view_init(elev=30, azim=-120)
+        ax.view_init(elev=30, azim=-150)
         ax.set_title('Gęstość')
         ax.tick_params(axis='both', which='major', labelsize=6.5)
 
         ax = fig.add_subplot(1, 2, 2, projection='3d')
         ax.plot_surface(S, T, v.transpose()[:, 0:-1], cmap='viridis', edgecolor='none')
-        ax.view_init(elev=35, azim=-165)
+        ax.view_init(elev=35, azim=-150)
         ax.set_title('Prędkość')
         ax.tick_params(axis='both', which='major', labelsize=6.5)
 
